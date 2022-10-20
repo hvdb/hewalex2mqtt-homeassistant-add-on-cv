@@ -37,9 +37,19 @@ logger.info('Starting Hewalex 2 Mqtt')
 # Read Configs
 def initConfiguration():
     logger.info("reading config")
-    config_file = os.path.join(os.path.dirname(__file__), 'hewalex2mqttconfig.ini')
+    # When deployed
+    #   hewalex2mqtt.py ( __file___ ) : /hewagate/hewalex2mqtt.py
+    #   options.json : /data/options.json
+    config_file = os.path.join(os.path.dirname(__file__), '../data/options.json')
+    config_file= os.path.normpath(config_file)
+    if(not os.path.isfile(config_file)) :
+        logger.error("file: %s does not exist", config_file)
+
+    with open(config_file, 'r') as config:
+        logger.info(config.read())
     config = configparser.ConfigParser()
     config.read(config_file)
+    
     # Mqtt
     global _MQTT_ip
     if (os.getenv('MQTT_ip') != None):        
