@@ -1,4 +1,3 @@
 name: Hewalex2MQTT for Home Assistant
-url: 'https://github.com/Emacee/hewalex2mqtt-homeassistant-add-on/'
-maintainer: Emacee <https://github.com/Emacee/>
-
+url: 'https://github.com/EduardWitteveen/hewalex2mqtt-homeassistant-add-on'
+maintainer: Eduard Witteveen <https://github.com/EduardWitteveen/>
