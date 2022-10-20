@@ -7,7 +7,10 @@ Heat pumps (PCWU) setup
 
 Remove the plastic case and open up the "fuse box". In here you will find a free rs485 connector. Remove it and screw in a 4 strand wire. Connect the wire to the rs485wifi device. Make sure you connect them correctly. It is wise to measure ac and grnd to be sure!
 
-In the controller, navigate to rs485 settings. Change baud rate to 38500, Actual address to 2 and Logic address to 2.
+In the controller, navigate to rs485 settings ("Port RS485") and change:
+- Baud rate ("Transmission speed") to: 38400
+- Actual address ("Physical address") to: 2
+- Logic address ("Logical address") to: 2
 
 Setup the rs485-to-wifi device. Make sure baud settings match above settings. It is probably wise to assign static ip-address. Take note of this.
 Solar pumps (ZPS) setup
