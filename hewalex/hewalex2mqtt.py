@@ -1,11 +1,12 @@
 import os
 import threading
-import configparser
+#import configparser
 import serial
 from hewalex_geco.devices import PCWU, ZPS
 import paho.mqtt.client as mqtt
 import logging
 import sys
+import json
 
 # polling interval
 get_status_interval = 30.0
@@ -37,93 +38,89 @@ logger.info('Starting Hewalex 2 Mqtt')
 # Read Configs
 def initConfiguration():
     logger.info("reading config")
-    # When deployed
-    #   hewalex2mqtt.py ( __file___ ) : /hewagate/hewalex2mqtt.py
-    #   options.json : /data/options.json
+    # When deployed = /hewagate/hewalex2mqtt.py and /data/options.json
     config_file = os.path.join(os.path.dirname(__file__), '../data/options.json')
     config_file= os.path.normpath(config_file)
-    if(not os.path.isfile(config_file)) :
-        logger.error("file: %s does not exist", config_file)
 
-    with open(config_file, 'r') as config:
-        logger.info(config.read())
-    config = configparser.ConfigParser()
-    config.read(config_file)
+    if(os.path.isfile(config_file)) :
+        file_pointer = open(config_file, 'r')
+        config = json.load(file_pointer)
+    else:
+        logger.error("file: %s does not exist", config_file)
     
     # Mqtt
     global _MQTT_ip
     if (os.getenv('MQTT_ip') != None):        
         _MQTT_ip = os.getenv('MQTT_ip')
     else:
-        _MQTT_ip = config['MQTT']['MQTT_ip']
+        _MQTT_ip = config['mqtt_ip']
     global _MQTT_port
     if (os.getenv('MQTT_port') != None):        
         _MQTT_port = int(os.getenv('MQTT_port'))
     else:
-        _MQTT_port = config.getint('MQTT', 'MQTT_port')
+        _MQTT_port = config['mqtt_port']
     global _MQTT_authentication
     if (os.getenv('MQTT_authentication') != None):        
         _MQTT_authentication = os.getenv('MQTT_authentication') == "True"
     else:
-        _MQTT_authentication = config.getboolean('MQTT','MQTT_authentication')
+        _MQTT_authentication = config['mqtt_authentication']
     global _MQTT_user
     if (os.getenv('MQTT_user') != None):        
         _MQTT_user = os.getenv('MQTT_user')
     else:
-        _MQTT_user = config['MQTT']['MQTT_user']
+        _MQTT_user = config['mqtt_user']
     global _MQTT_pass
     if (os.getenv('MQTT_pass') != None):        
         _MQTT_pass = os.getenv('MQTT_pass')
     else:
-        _MQTT_pass = config['MQTT']['MQTT_pass']
-    
+        _MQTT_pass = config['mqtt_pass']    
     
     # ZPS Device
     global _Device_Zps_Enabled
     if (os.getenv('Device_Zps_Enabled') != None):        
         _Device_Zps_Enabled = os.getenv('Device_Zps_Enabled') == "True"
     else:
-        _Device_Zps_Enabled = config.getboolean('ZPS', 'Device_Zps_Enabled')
+        _Device_Zps_Enabled = config['Device_Zps_Enabled']
     global _Device_Zps_Address
     if (os.getenv('_Device_Zps_Address') != None):        
         _Device_Zps_Address = os.getenv('Device_Zps_Address')
     else:
-        _Device_Zps_Address = config['ZPS']['Device_Zps_Address']
+        _Device_Zps_Address = config['Device_Zps_Address']
     global _Device_Zps_Port
     if (os.getenv('Device_Zps_Port') != None):        
         _Device_Zps_Port = os.getenv('Device_Zps_Port')
     else:
-        _Device_Zps_Port = config['ZPS']['Device_Zps_Port']
+        _Device_Zps_Port = config['Device_Zps_Port']
 
     global _Device_Zps_MqttTopic
     if (os.getenv('Device_Zps_MqttTopic') != None):        
         _Device_Zps_MqttTopic = os.getenv('Device_Zps_MqttTopic')
     else:
-        _Device_Zps_MqttTopic = config['ZPS']['Device_Zps_MqttTopic']
+        _Device_Zps_MqttTopic = config['Device_Zps_MqttTopic']
 
     # PCWU Device
     global _Device_Pcwu_Enabled
     if (os.getenv('Device_Pcwu_Enabled') != None):        
         _Device_Pcwu_Enabled = os.getenv('Device_Pcwu_Enabled') == "True"
     else:
-        _Device_Pcwu_Enabled = config.getboolean('Pcwu', 'Device_Pcwu_Enabled')
+        _Device_Pcwu_Enabled = config['Device_Pcwu_Enabled']
 
     global _Device_Pcwu_Address
     if (os.getenv('_Device_Pcwu_Address') != None):        
         _Device_Pcwu_Address = os.getenv('Device_Pcwu_Address')
     else:
-        _Device_Pcwu_Address = config['Pcwu']['Device_Pcwu_Address']        
+        _Device_Pcwu_Address = config['Device_Pcwu_Address']
     global _Device_Pcwu_Port
     if (os.getenv('Device_Pcwu_Port') != None):        
         _Device_Pcwu_Port = os.getenv('Device_Pcwu_Port')
     else:
-        _Device_Pcwu_Port = config['Pcwu']['Device_Pcwu_Port']
+        _Device_Pcwu_Port = config['Device_Pcwu_Port']
 
     global _Device_Pcwu_MqttTopic
     if (os.getenv('Device_Pcwu_MqttTopic') != None):        
         _Device_Pcwu_MqttTopic = os.getenv('Device_Pcwu_MqttTopic')
     else:
-        _Device_Pcwu_MqttTopic = config['Pcwu']['Device_Pcwu_MqttTopic']
+        _Device_Pcwu_MqttTopic = config['Device_Pcwu_MqttTopic']
 
 def start_mqtt():
     global client

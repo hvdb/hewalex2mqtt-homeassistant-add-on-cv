@@ -1,2 +1,5 @@
-/hewalex/.vs
+*.vs/
+*.user
+*__pycache__/
 /hewalex/env/
+
