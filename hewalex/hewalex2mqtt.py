@@ -165,6 +165,7 @@ def on_message_mqtt(client, userdata, message):
         logger.info('Exception in on_message_mqtt: '+ str(e))
 
 def on_message_serial(obj, h, sh, m):
+    logger.info('on_message_serial: obj:'+ str(obj))
     try:    
         if flag_connected_mqtt != 1:
             return False
