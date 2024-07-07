@@ -1,9 +1,9 @@
 {
-	"name": "Hewalex2MQTT-EduardWitteveen",
-	"version": "0.1.2",
+	"name": "Hewalex2MQTT-hvdb",
+	"version": "0.2.0",
 	"slug": "hewalex",
 	"description": "Hewalex heat pump monitoring",
-	"url": "https://github.com/EduardWitteveen/hewalex2mqtt-homeassistant-add-on/",
+	"url": "https://github.com/hvdb/hewalex2mqtt-homeassistant-add-on/",
 	"arch": [
 		"armv7",
 		"aarch64",
