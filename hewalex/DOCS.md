@@ -136,4 +136,8 @@ Device_Pcwu_Enabled: true
 Device_Pcwu_Address: 192.168.1.93
 Device_Pcwu_Port: 8899
 Device_Pcwu_MqttTopic: Heatpump
+Device_Pcwu2_Enabled: true
+Device_Pcwu2_Address: 192.168.1.93
+Device_Pcwu2_Port: 8899
+Device_Pcwu2_MqttTopic: Heatpump2
 ```
