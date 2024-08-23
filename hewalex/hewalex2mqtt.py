@@ -267,6 +267,7 @@ def device_readregisters_enqueue():
     if _Device_Pcwu_Enabled:        
         readPCWU()
         readPcwuConfig()
+
     if _Device_Pcwu2_Enabled:        
         readPCWU2()
         readPcwu2Config()
@@ -304,7 +305,8 @@ def readPCWU():
     dev.readStatusRegisters(ser)    
     ser.close()  
 
-def readPCWU2():    
+def readPCWU2():  
+     logger.info('READ PCWU 2')  
     ser = serial.serial_for_url("socket://%s:%s" % (_Device_Pcwu2_Address, _Device_Pcwu2_Port))
     dev = PCWU(conHardId2, conSoftId2, devHardId, devSoftId, on_message_serial2)        
     dev.readStatusRegisters(ser)    
@@ -317,6 +319,7 @@ def readPcwuConfig():
     ser.close()
 
 def readPcwu2Config():    
+    logger.info('READ PCWU CONF 2')  
     ser = serial.serial_for_url("socket://%s:%s" % (_Device_Pcwu2_Address, _Device_Pcwu2_Port))
     dev = PCWU(conHardId2, conSoftId2, devHardId, devSoftId, on_message_serial2)            
     dev.readConfigRegisters(ser)
