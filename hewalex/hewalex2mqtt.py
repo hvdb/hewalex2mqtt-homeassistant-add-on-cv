@@ -33,7 +33,7 @@ stream_handler.setLevel(logging.DEBUG)
 logger.addHandler(stream_handler)
 
 # Start
-logger.info('Starting Hewalex 2 Mqtt')
+logger.info('Starting Hewalex 2 Mqtt hvdb')
 
 # Read Configs
 def initConfiguration():
