@@ -15,6 +15,11 @@ get_status_interval = 30.0
 conHardId = 1
 conSoftId = 1
 
+# Controller2 (Master)
+conHardId2 = 3
+conSoftId2 = 3
+
+
 # ZPS (Slave)
 devHardId = 2
 devSoftId = 2
@@ -161,9 +166,12 @@ def start_mqtt():
     if (_Device_Pcwu_Enabled):
         logger.info('subscribed to : ' + _Device_Pcwu_MqttTopic + '/Command/#')    
         client.subscribe(_Device_Pcwu_MqttTopic + '/Command/#', qos=1)
+
+
     if (_Device_Pcwu2_Enabled):
         logger.info('subscribed to : ' + _Device_Pcwu2_MqttTopic + '/Command/#')    
         client.subscribe(_Device_Pcwu2_MqttTopic + '/Command/#', qos=1)
+        
     client.loop_start()
 
 def on_connect_mqtt(client, userdata, flags, r):
@@ -298,7 +306,7 @@ def readPCWU():
 
 def readPCWU2():    
     ser = serial.serial_for_url("socket://%s:%s" % (_Device_Pcwu2_Address, _Device_Pcwu2_Port))
-    dev = PCWU(conHardId, conSoftId, devHardId, devSoftId, on_message_serial2)        
+    dev = PCWU(conHardId2, conSoftId2, devHardId, devSoftId, on_message_serial2)        
     dev.readStatusRegisters(ser)    
     ser.close()   
 
@@ -310,19 +318,19 @@ def readPcwuConfig():
 
 def readPcwu2Config():    
     ser = serial.serial_for_url("socket://%s:%s" % (_Device_Pcwu2_Address, _Device_Pcwu2_Port))
-    dev = PCWU(conHardId, conSoftId, devHardId, devSoftId, on_message_serial2)            
+    dev = PCWU(conHardId2, conSoftId2, devHardId, devSoftId, on_message_serial2)            
     dev.readConfigRegisters(ser)
     ser.close()
 
 def writePcwuConfig(registerName, payload):    
     ser = serial.serial_for_url("socket://%s:%s" % (_Device_Pcwu_Address, _Device_Pcwu_Port))
-    dev = PCWU(conHardId, conSoftId, devHardId, devSoftId, on_message_serial)            
+    dev = PCWU(conHardId2, conSoftId2, devHardId, devSoftId, on_message_serial)            
     dev.write(ser, registerName, payload)
     ser.close()
 
 def writePcwu2Config(registerName, payload):    
     ser = serial.serial_for_url("socket://%s:%s" % (_Device_Pcwu2_Address, _Device_Pcwu2_Port))
-    dev = PCWU(conHardId, conSoftId, devHardId, devSoftId, on_message_serial2)            
+    dev = PCWU(conHardId2, conSoftId2, devHardId, devSoftId, on_message_serial2)            
     dev.write(ser, registerName, payload)
     ser.close()
 
