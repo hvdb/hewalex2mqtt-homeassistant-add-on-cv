@@ -16,8 +16,8 @@ conHardId = 1
 conSoftId = 1
 
 # Controller2 (Master)
-conHardId2 = 3
-conSoftId2 = 3
+conHardId2 = 1
+conSoftId2 = 1
 
 
 # ZPS (Slave)
