@@ -1,5 +1,5 @@
 # home-assistant-add-on
-Home Assistant add-on for Hewalex2MQTT-hvdb
+Home Assistant add-on for Hewalex2MQTT-hvdb-cv
 
 ### Hewalex2MQTT Home Assistant Add-on
 
